@@ -106,10 +106,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle LED
+	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle LED
 	  HAL_Delay(500);                          // 500ms delay
 	  HAL_UART_Transmit(&huart1, (uint8_t*)msg, 6, HAL_MAX_DELAY);
-
+	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle onboard LED
 
   }
   /* USER CODE END 3 */
@@ -160,6 +160,14 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim->Instance == TIM4)  // Check which timer triggered
+    {
+        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Toggle onboard LED
+    }
+}
 
 
 /* USER CODE END 4 */
